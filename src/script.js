@@ -6,40 +6,53 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { NoToneMapping } from "three";
 
 const canvas = document.querySelector("#c");
-const loadingPage = document.querySelector(".before");
+const before = document.querySelector(".before");
 const mobileControls = document.querySelector(".mobileControls");
 const beforeBtn = document.querySelector(".before-enterBtn");
+const button1 = document.querySelector(".button1");
+const button2 = document.querySelector(".button2");
+const button3 = document.querySelector(".button3");
+const after = document.querySelector(".after");
 const backgroundColor = "white";
-const loadingBar = document.querySelector(".loadingBar");
-const loadingBarC = document.querySelector(".progress");
 const loadingAnim = document.querySelector(".loadingAnim");
+const background = document.querySelector(".background");
+const cursor = document.querySelector(".cursor");
 
-beforeBtn.addEventListener("click", function (e) {
-  loadingPage.style.opacity = "0";
-  loadingPage.style.zIndex = "-1";
-  canvas.style.display = "block";
+let musiccounter = 2;
+
+var music = document.createElement("audio");
+music.setAttribute("src", `/html/music1.mp3`);
+music.setAttribute("loop", "loop");
+
+button1.addEventListener("click", function (e) {
+  music.setAttribute("src", `/html/music${musiccounter}.mp3`);
+  music.play();
+
+  musiccounter++;
+  if (musiccounter > 7) {
+    musiccounter = 1;
+  }
 });
 
-const loadingManager = new THREE.LoadingManager(
-  //loaded
-  () => {
-    beforeBtn.style.opacity = "1";
-    beforeBtn.style.zIndex = "11";
-    loadingBar.style.opacity = "0";
-    loadingBarC.style.opacity = "0";
-  },
-  //progress
-  (Url, itemsLoaded, itemsTotal) => {
-    loadingBar.style.width = (itemsLoaded / itemsTotal) * 98 + "%";
-  }
-);
+before.addEventListener("click", function (e) {
+  music.play();
+  before.style.opacity = "0";
+  before.style.zIndex = "-1";
+  canvas.style.display = "block";
+  after.style.opacity = "1";
+});
+
+const loadingManager = new THREE.LoadingManager();
 
 const loader = new GLTFLoader(loadingManager);
 const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
+const TextureLoader = new THREE.TextureLoader();
 
 //scene
 const scene = new THREE.Scene(loadingManager);
-scene.background = new THREE.Color(backgroundColor);
+const back2 = TextureLoader.load("/html/back3.png");
+scene.background = null;
+// scene.background = new THREE.Color(backgroundColor);
 // scene.fog = new THREE.Fog(backgroundColor, 60, 100);
 
 //size
@@ -49,14 +62,18 @@ const sizes = {
 };
 
 //renderer
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: true,
+  alpha: true,
+});
 renderer.shadowMap.enabled = true;
 renderer.physicallyCorrectLights = true;
 // renderer.outputEncoding = THREEsRGBEncoding;
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-
+renderer.setClearColor(0x000000, 0);
 document.body.appendChild(renderer.domElement);
 
 //camera
@@ -80,15 +97,6 @@ scene.add(ambientLight);
 const d = 8.25;
 const directLight = new THREE.DirectionalLight("white", 3.5);
 directLight.position.set(-8, 12, 8);
-// directLight.castShadow = true;
-// directLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
-// directLight.shadow.camera.near = 0.1;
-// directLight.shadow.camera.far = 1500;
-// directLight.shadow.camera.left = d * -1;
-// directLight.shadow.camera.right = d;
-// directLight.shadow.camera.top = d;
-// directLight.shadow.camera.bottom = d * -1;
-// directLight.shadow.normalBias = 0.05;
 scene.add(directLight);
 
 //enmap
@@ -129,6 +137,7 @@ function loadeded(modelPath) {
       }
       if (o.isMesh) {
         o.material.envMap = environMap;
+        o.material.toneMapped = true;
         o.material.envMapIntensity = 3;
       }
     });
@@ -156,11 +165,7 @@ loadeded(modelT);
 //raycaster
 
 document.addEventListener("dblclick", (e) => raycast(e, changedModelC));
-// document.addEventListener("mouseover", (e) => raycast(e, mouseEnterModel));
-// document.addEventListener("mouseout", (e) => raycast(e, mouseLeaveModel));
 mobileControls.addEventListener("dblclick", (e) => changeModel(e));
-
-// document.addEventListener("touchend", (e) => raycast(e, true));
 
 function raycast(e, func) {
   e.preventDefault();
@@ -178,13 +183,6 @@ function raycast(e, func) {
     func();
   }
 }
-
-// function mouseEnterModel() {
-//   doubleClick.classList.add("show");
-// }
-// function mouseLeaveModel() {
-//   doubleClick.classList.remove("show");
-// }
 
 function changedModelC() {
   if (modelT === "/models/c1.glb") {
@@ -209,6 +207,13 @@ function changedModelC() {
     loadeded(modelT);
     scene.add(cube);
   } else if (modelT === "/models/c4.glb") {
+    scene.remove(cube);
+    scene.remove(model);
+    modelT = "/models/c5.glb";
+    loadingAnim.style.opacity = 1;
+    loadeded(modelT);
+    scene.add(cube);
+  } else if (modelT === "/models/c5.glb") {
     scene.remove(cube);
     scene.remove(model);
     modelT = "/models/c1.glb";
@@ -237,11 +242,27 @@ function changeModel(e) {
     loadeded(modelT);
   } else if (modelT === "/models/c4.glb") {
     scene.remove(model);
+    modelT = "/models/c5.glb";
+    loadingAnim.style.opacity = 1;
+    loadeded(modelT);
+  } else if (modelT === "/models/c5.glb") {
+    scene.remove(model);
     modelT = "/models/c1.glb";
     loadingAnim.style.opacity = 1;
     loadeded(modelT);
   }
 }
+
+let counter = 1;
+//Background
+button2.addEventListener("click", function () {
+  background.src = `/html/back${counter}.png`;
+  cursor.src = `/html/cursor${counter}.png`;
+  counter++;
+  if (counter >= 6) {
+    counter = 0;
+  }
+});
 
 //Cursor
 function getMousePos(e) {
@@ -295,24 +316,27 @@ function getMouseDegrees(x, y, degreeLimit, width, height) {
 document.addEventListener("mousemove", function (e) {
   const mousecoords = getMousePos(e);
 
+  cursor.style.top = e.clientY + "px";
+  cursor.style.left = e.clientX + "px";
+
   if (neck && waist) {
     moveJoint(mousecoords, neck, 50, sizes.width, sizes.height);
     moveJoint(mousecoords, waist, 40, sizes.width, sizes.height);
   }
 });
-
+const mobileControls2 = document.querySelector(".mobileControls2");
 mobileControls.addEventListener("touchmove", function (e) {
   e.preventDefault();
+  mobileControls2.style.display = "none";
   const mousecoords = getMousePosMobile(e);
   if (neck && waist) {
     moveJoint(mousecoords, neck, 50, sizes.width * 1.2, sizes.height * 1.2);
     moveJoint(mousecoords, waist, 40, sizes.width * 1.2, sizes.height * 1.2);
   }
 });
-
-// function setTranslate(xPos, yPos, el) {
-//   el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
-// }
+mobileControls.addEventListener("touchend", function (e) {
+  mobileControls2.style.display = "block";
+});
 
 //resize
 window.addEventListener("resize", () => {
@@ -365,3 +389,49 @@ const tick = () => {
 };
 
 tick();
+
+const one = document.querySelector(".one");
+const three = document.querySelector(".three");
+const five = document.querySelector(".five");
+const six = document.querySelector(".six");
+const eight = document.querySelector(".eight");
+const ten = document.querySelector(".ten");
+const twelve = document.querySelector(".twelve");
+
+const G1 = document.querySelector(".G1");
+const G2 = document.querySelector(".G2");
+const o11 = document.querySelector(".o11");
+const o21 = document.querySelector(".o21");
+const o12 = document.querySelector(".o12");
+const o22 = document.querySelector(".o22");
+const V1 = document.querySelector(".V1");
+const V2 = document.querySelector(".V2");
+const e11 = document.querySelector(".e11");
+const e21 = document.querySelector(".e21");
+const e12 = document.querySelector(".e12");
+const e22 = document.querySelector(".e22");
+const I1 = document.querySelector(".I1");
+const I2 = document.querySelector(".I2");
+const H1 = document.querySelector(".H1");
+const H2 = document.querySelector(".H2");
+var sound = document.createElement("audio");
+
+function enter(one, two, three) {
+  three.addEventListener("mouseenter", function (e) {
+    one.style.opacity = "0";
+    two.style.opacity = "1";
+  });
+  three.addEventListener("mouseleave", function (e) {
+    one.style.opacity = "1";
+    two.style.opacity = "0";
+  });
+}
+enter(G1, G2, one);
+enter(o11, o21, three);
+// enter(o12, o22, four);
+enter(V1, V2, five);
+enter(e11, e21, six);
+enter(e12, e22, twelve);
+
+enter(I1, I2, eight);
+enter(H1, H2, ten);

@@ -1,12 +1,63 @@
 * {
   margin: 0;
   padding: 0;
+  cursor: none !important;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
 }
 
 html,
 body {
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
+}
+.after {
+  opacity: 0;
+}
+.titleSmall {
+  position: absolute;
+  left: 0.5vw;
+  margin: 0.5vw;
+  width: 25vw;
+}
+.text {
+  position: absolute;
+  top: 1vw;
+  right: 73vw;
+  pointer-events: none;
+}
+
+.marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  position: absolute;
+  font-family: "Old Standard TT", serif;
+  font-style: italic;
+}
+
+.marquee span {
+  display: inline-block;
+  margin-left: 0%;
+  animation: marquee 50s linear infinite;
+  text-shadow: 0 0 5px #fff, 0 0 7px #fff;
+}
+
+.marquee2 span {
+  margin-left: 100%;
+  animation-delay: 0s;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-100%, 0);
+  }
 }
 #c {
   display: none;
@@ -16,6 +67,27 @@ body {
   width: 100%;
   height: 100%;
   outline: none;
+  cursor: none;
+}
+.cursor {
+  left: -100px;
+  top: -100px;
+  width: auto;
+  height: 3.5vw;
+  position: fixed;
+  transform: translate(-25%, -25%);
+  pointer-events: none;
+  z-index: 100;
+}
+.background {
+  position: fixed;
+  width: auto;
+  height: 100%;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%);
+  z-index: -1;
+  cursor: none;
 }
 .before {
   position: fixed;
@@ -26,31 +98,59 @@ body {
   background-color: white;
   display: block;
   z-index: 10;
-  /* transition: 0.1s; */
+  transition: 0.5s;
   opacity: 1;
 }
+
 .after-buttons {
   position: absolute;
-  /* display: block; */
-  left: 2vw;
-  bottom: 10vh;
+  left: 2.5vw;
+  bottom: 2vh;
   font-family: sans-serif;
   z-index: 5;
 }
+
 .button1 {
   position: relative;
-  margin-bottom: 1.5vw;
-  cursor: pointer;
+  margin-bottom: 5vh;
+  width: 2vw;
+  display: block;
+  min-width: 30px;
+  transition: transform 0.2s;
+}
+.button1:hover {
+  transform: scale(1.1);
+}
+.button1:active {
+  transform: scale(0.9);
 }
 .button2 {
   position: relative;
-  margin-bottom: 1.5vw;
-  cursor: pointer;
+  margin-bottom: 5vh;
+  width: 2vw;
+  display: block;
+  min-width: 30px;
+  transition: transform 0.2s;
+}
+.button2:hover {
+  transform: scale(1.1);
+}
+.button2:active {
+  transform: scale(0.9);
 }
 .button3 {
   position: relative;
-  margin-bottom: 1.5vw;
-  cursor: pointer;
+  margin-bottom: 5vh;
+  width: 2vw;
+  display: block;
+  min-width: 30px;
+  transition: transform 0.2s;
+}
+.button3:hover {
+  transform: scale(1.1);
+}
+.button3:active {
+  transform: scale(0.9);
 }
 
 .doubleClick {
@@ -63,92 +163,326 @@ body {
 }
 .loadingAnim {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   opacity: 0;
   z-index: 1;
   transform: translate(-50%);
-  font-family: sans-serif;
   pointer-events: none;
+  width: 2.5vw;
 }
-.loadingBar {
-  position: relative;
-  top: 10px;
-  left: 10px;
-  width: 2%;
-  height: 20px;
-  background: #ffccff;
-  border-radius: 6px;
-  opacity: 1;
-  z-index: 12;
-  transition: opacity 0.1s;
-  box-shadow: inset 0px 0px 18px -3px white;
-}
-.progress {
-  position: absolute;
-  bottom: 20vh;
-  left: 50%;
-  transform: translate(-50%);
-  height: 40px;
-  width: 60%;
-  background-color: white;
-  border-radius: 10px;
-  opacity: 1;
-  z-index: 11;
-  transition: opacity 0.1s;
-  box-shadow: inset 0px 0px 20px -3px #ffccff;
-}
+
 .before-enterBtn {
   position: absolute;
-  bottom: 20%;
-  left: 50%;
-  transform: translate(-50%);
+  width: 100%;
+  height: 100%;
   opacity: 0;
-  /* width: 10vw;
-  height: 7vh;
-  background: #ffccff; */
-  /* border-radius: 50%; */
-  z-index: 10;
-  cursor: pointer;
-  font-size: 3vw;
-  font-family: sans-serif;
-  /* transition: 0.4s; */
-  text-align: center;
+  z-index: -5;
 }
-/* .before-enterBtn:hover {
-} */
+.one {
+  position: absolute;
+  width: 15vw;
+  height: 65vh;
+  left: 11%;
+  top: 50%;
+  transform: translate(0%, -55%);
+  z-index: 3;
+}
+.two {
+  position: absolute;
+  width: 7vw;
+  height: 47vh;
+  left: 24%;
+  top: 50%;
+  transform: translate(0%, -40%);
+  z-index: 3;
+}
+.three {
+  position: absolute;
+  width: 8vw;
+  height: 27vh;
+  left: 29.5%;
+  top: 50%;
+  transform: translate(0%, -5%);
+  z-index: 3;
+}
+.four {
+  position: absolute;
+  width: 6vw;
+  height: 22vh;
+  left: 36.5%;
+  top: 50%;
+  transform: translate(0%, 20%);
+  z-index: 3;
+  /* background-color: red; */
+}
+.five {
+  position: absolute;
+  width: 10vw;
+  height: 45vh;
+  left: 40.3%;
+  top: 50%;
+  transform: translate(0%, -40%);
+  z-index: 3;
+}
+.six {
+  position: absolute;
+  width: 7vw;
+  height: 26vh;
+  left: 48%;
+  top: 50%;
+  transform: translate(0%, 5%);
+  z-index: 3;
+}
+.seven {
+  position: absolute;
+  width: 7vw;
+  height: 15.5vh;
+  left: 53.5%;
+  top: 50%;
+  transform: translate(0%, -80%);
+  z-index: 3;
+}
+.eight {
+  position: absolute;
+  width: 3vw;
+  height: 19vh;
+  left: 61%;
+  top: 50%;
+  transform: translate(0%, -84%);
+  z-index: 3;
+}
+.nine {
+  position: absolute;
+  width: 4vw;
+  height: 15vh;
+  left: 64%;
+  top: 50%;
+  transform: translate(0%, -85%);
+  z-index: 3;
+}
+.ten {
+  position: absolute;
+  width: 5.5vw;
+  height: 18vh;
+  left: 66.5%;
+  top: 50%;
+  transform: translate(0%, -130%);
+  z-index: 3;
+}
+.eleven {
+  position: absolute;
+  width: 26vw;
+  height: 45vh;
+  left: 62%;
+  top: 50%;
+  transform: translate(0%, -45%);
+  z-index: 2;
+  border-top-left-radius: 50%;
+}
+.twelve {
+  position: absolute;
+  width: 10.5vw;
+  height: 18vh;
+  left: 82.5%;
+  top: 50%;
+  transform: translate(0%, -30%);
+  z-index: 3;
+}
+
 .title {
   position: absolute;
-  left: 50%;
+  width: 65.4vw;
+  left: 50.5%;
   top: 50%;
-  transform: translate(-48%, -70%);
-  width: 70vw;
+  transform: translate(-41%, -47%);
 }
+.G1 {
+  position: fixed;
+  width: 18.3vw;
+  height: auto;
+  left: 10.3vw;
+  top: 50%;
+  transform: translate(0, -55%);
+}
+.o11 {
+  position: absolute;
+  width: 8.5vw;
+  height: auto;
+  left: 29%;
+  top: 50%;
+  transform: translate(0%, -8%);
+  opacity: 1;
+}
+.o12 {
+  position: absolute;
+  width: 6.5vw;
+  height: auto;
+  left: 37%;
+  top: 50%;
+  transform: translate(0%, 17%);
+  opacity: 1;
+}
+.V1 {
+  position: absolute;
+  width: 20vw;
+  height: auto;
+  left: 35.3%;
+  top: 50%;
+  transform: translate(0%, -48%);
+  z-index: ;
+}
+.e11 {
+  position: absolute;
+  width: 7.5vw;
+  left: 48%;
+  top: 50%;
+  transform: translate(0%, 10%);
+}
+.I1 {
+  position: absolute;
+  width: 4.3vw;
+  left: 60.5%;
+  top: 50%;
+  transform: translate(0%, -85%);
+}
+.H1 {
+  position: absolute;
+  width: 6.1vw;
+  left: 66%;
+  top: 50%;
+  transform: translate(0%, -128%);
+}
+.e12 {
+  position: absolute;
+  width: 10.5vw;
+  left: 82.2%;
+  top: 50%;
+  transform: translate(0%, -26%);
+}
+.G2 {
+  position: absolute;
+  width: 27vw;
+  left: 2vw;
+  top: 50%;
+  transform: translate(0%, -56%);
+  opacity: 0;
+  z-index: 2;
+}
+
+.o21 {
+  position: absolute;
+  width: 10.5vw;
+  height: auto;
+  left: 27.5%;
+  top: 50%;
+  transform: translate(0%, 3%);
+  opacity: 0;
+}
+.o22 {
+  position: absolute;
+  width: 10.3vw;
+  height: auto;
+  left: 35%;
+  top: 50%;
+  transform: translate(0%, 35%);
+  opacity: 0;
+  z-index: 2;
+}
+.V2 {
+  position: absolute;
+  width: 27vw;
+  height: auto;
+  left: 32.3%;
+  top: 50%;
+  transform: translate(0%, -54%);
+  opacity: 0;
+  z-index: 0;
+}
+.e21 {
+  position: absolute;
+  width: 14vw;
+  left: 46%;
+  top: 50%;
+  transform: translate(0%, 13%);
+  opacity: 0;
+  z-index: 2;
+}
+.e22 {
+  position: absolute;
+  width: 13.5vw;
+  left: 81.2%;
+  top: 50%;
+  transform: translate(0%, -19%);
+  opacity: 0;
+}
+.I2 {
+  position: absolute;
+  width: 6.8vw;
+  left: 59.2%;
+  top: 50%;
+  transform: translate(0%, -75%);
+  opacity: 0;
+}
+.H2 {
+  position: absolute;
+  width: 12vw;
+  left: 63%;
+  top: 50%;
+  transform: translate(0%, -100%);
+  opacity: 0;
+}
+
 .title-after {
   position: absolute;
-  top: 3vh;
+  top: 2vh;
   left: 2vw;
-  width: 20vw;
+  width: 26vw;
   z-index: 1;
 }
 .rainbow {
   position: absolute;
-  width: 40vw;
+  width: 55vw;
   left: -5vw;
-  top: -5vh;
+  top: -8vh;
+  pointer-events: none;
+  z-index: 1;
 }
 .cloud1 {
   position: absolute;
-  left: -14vw;
-  bottom: -10vh;
+  width: 65vw;
+  left: -20vw;
+  bottom: -20vh;
+  opacity: 0.8;
+  z-index: 3;
+  pointer-events: none;
+  animation: cloud 5s infinite;
 }
 .cloud2 {
   position: absolute;
+  width: 55vw;
   right: -14vw;
-  bottom: -10vh;
+  bottom: -8vh;
+  z-index: 3;
+  opacity: 0.7;
+  pointer-events: none;
+  animation: cloud 5s infinite;
+}
+.cloud3 {
+  position: absolute;
+  width: 55vw;
+  left: 25vw;
+  bottom: -25vh;
+  opacity: 0.7;
+  z-index: 3;
+  pointer-events: none;
+  animation: cloud 5s infinite;
 }
 
-.mobileControls .controlCursor {
+.mobileControls {
+  display: none;
+}
+.mobileControls2 {
   display: none;
 }
 .changeModel {
@@ -157,7 +491,28 @@ body {
   color: black;
 }
 
+.mobile-title {
+  display: none;
+}
+
 @media only screen and (max-width: 1100px) {
+  .no {
+    display: none;
+  }
+  .cursor {
+    display: none;
+  }
+  .text {
+    /* left: 0;
+    font-size: 3.5vw; */
+    display: none;
+  }
+  .loadingAnim {
+    position: absolute;
+    top: 50%;
+    width: 5vw;
+  }
+
   .mobileControls {
     display: block;
     position: absolute;
@@ -177,6 +532,7 @@ body {
     user-select: none;
     transform: scale(1);
     transition: 0.2s;
+    z-index: 10;
   }
   .mobileControls:active {
     background-color: gray;
@@ -184,72 +540,109 @@ body {
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.41);
     opacity: 1;
   }
-  .loadingBar {
-    position: relative;
-    top: 2.5px;
-    left: 2.5px;
-    width: 2%;
-    height: 10px;
-    background: #ffccff;
-    border-radius: 10px;
-    opacity: 1;
-    z-index: 12;
-    transition: opacity 0.1s;
-    box-shadow: inset 0px 0px 10px -3px white;
-  }
-  .progress {
-    position: absolute;
-    bottom: 50%;
-    left: 50%;
-    transform: translate(-50%, 10%);
-    height: 15px;
-    width: 70%;
-    background-color: white;
-    border-radius: 10px;
-    opacity: 1;
-    z-index: 11;
-    transition: 0.1s;
-    box-shadow: inset 0px 0px 13px -3px #ffccff;
-  }
-  .before-enterBtn {
-    position: absolute;
-    bottom: 50%;
-    left: 50%;
-    transform: translate(-50%, 40%);
-    opacity: 0;
-    /* width: 60vw;
-    height: 10vh; */
-    /* background: red; */
-    /* border-radius: 50%; */
-    z-index: 10;
-  }
-  .title {
+
+  .mobile-title {
     position: absolute;
     left: 50%;
     top: 49%;
-    transform: translate(-50%, -50%) rotate(-90deg);
+    transform: translate(-52%, -50%) rotate(-90deg);
     width: 80vh;
+    display: block;
+    z-index: -1;
+    z-index: 4;
   }
   .title-after {
-    width: 40vw;
+    width: 45vw;
     top: 1vh;
+    left: 5vw;
   }
+  .after-buttons {
+    position: absolute;
+    left: 6vw;
+    bottom: 1vw;
+    z-index: 5;
+  }
+
+  .button1:active {
+    transform: scale(0.4);
+  }
+
   .rainbow {
-    position: absolute;
-    width: 70vw;
-    left: -5vw;
-    top: -5vh;
+    width: 140vw;
+    top: -8vh;
+    left: -40vw;
   }
-  /* .cloud1 {
+
+  .cloud1 {
     position: absolute;
-    width: 30vw;
-    bottom: -10vh;
-    left: -5vw;
+    width: 100vw;
+    bottom: -6vh;
+    left: -35vw;
   }
   .cloud2 {
     position: absolute;
-    width: 30vw;
-    bottom: -10vh;
-    right: -10vw;
-  } */
+    width: 100vw;
+    bottom: -6vh;
+    right: -35vw;
+  }
+  .mobileControls2 {
+    opacity: 1;
+    display: block;
+    font-family: "Asap", sans-serif;
+    font-style: italic;
+  }
+  .Double {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -15%);
+    color: black;
+    z-index: 100;
+    pointer-events: none;
+    animation: opacityy 5s infinite;
+    animation-delay: 1.65s;
+    opacity: 0;
+  }
+  .Drag {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -15%);
+    color: black;
+    z-index: 100;
+    pointer-events: none;
+    animation: opacityy 5s infinite;
+    opacity: 0;
+    animation-delay: -1s;
+  }
+}
+
+@keyframes opacityy {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes cloud {
+  0% {
+    transform: translate(0, 2%);
+  }
+  50% {
+    transform: translate(0, -8%);
+  }
+  100% {
+    transform: translate(0, 2%);
+  }
 }
